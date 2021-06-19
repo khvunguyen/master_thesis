@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>*** Prototype for master thesis HTW 2021 ***</title>
+    <style>
+        h1,
+        h2 {
+            text-align: center;
+            top: 50px;
+        }
+
+        .center {
+            align-items: center;
+            text-align: center;
+        }
+
+        .textIP {
+            height: 50px;
+            font: 30px bold;
+        }
+
+        .textDebug {
+            font: 30px bold;
+            color: blue;
+        }
+
+        #ipSuperCollider {
+            border: 1px solid #160801;
+        }
+
+        hr {
+            margin: 10px 10% 10px 10%;
+        }
+
+        .slider {
+            -webkit-appearance: none;
+            width: 80%;
+            height: 30px;
+            border-radius: 5px;
+            background: #d3d3d3;
+            outline: none;
+            opacity: 0.7;
+            -webkit-transition: .2s;
+            transition: opacity .2s;
+        }
+
+        .slider:hover {
+            opacity: 1;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #4CAF50;
+            cursor: pointer;
+        }
+
+        .slider::-moz-range-thumb {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #4CAF50;
+            cursor: pointer;
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        ul {
+            text-align: center;
+            height: 18.875em;
+            width: 34em;
+            margin: auto;
+            padding: 3em 0 0 3em;
+            position: relative;
+            border: 1px solid #160801;
+            border-radius: 1em;
+            background: linear-gradient(45deg, rgb(10, 10, 10) 0%, rgb(46, 46, 46) 100%);
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.5) inset, 0 1px rgba(212, 152, 125, 0.2) inset, 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        li {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            position: relative;
+            float: left
+        }
+
+        ul .white {
+            height: 16em;
+            width: 4em;
+            z-index: 1;
+            border-left: 1px solid #bbb;
+            border-bottom: 1px solid #bbb;
+            border-radius: 0 0 5px 5px;
+            box-shadow: -1px 0 0 rgba(255, 255, 255, 0.8) inset, 0 0 5px #ccc inset, 0 0 3px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(to bottom, #eee 0%, #fff 100%)
+        }
+
+        ul .white:active {
+            border-top: 1px solid #777;
+            border-left: 1px solid #999;
+            border-bottom: 1px solid #999;
+            box-shadow: 2px 0 3px rgba(0, 0, 0, 0.1) inset, -5px 5px 20px rgba(0, 0, 0, 0.2) inset, 0 0 3px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(to bottom, #fff 0%, #e9e9e9 100%)
+        }
+
+        .black {
+            height: 8em;
+            width: 2em;
+            margin: 0 0 0 -1em;
+            z-index: 2;
+            border: 1px solid #000;
+            border-radius: 0 0 3px 3px;
+            box-shadow: -1px -1px 2px rgba(255, 255, 255, 0.2) inset, 0 -5px 2px 3px rgba(0, 0, 0, 0.6) inset, 0 2px 4px rgba(0, 0, 0, 0.5);
+            background: linear-gradient(45deg, #222 0%, #555 100%)
+        }
+
+        .black:active {
+            box-shadow: -1px -1px 2px rgba(255, 255, 255, 0.2) inset, 0 -2px 2px 3px rgba(0, 0, 0, 0.6) inset, 0 1px 2px rgba(0, 0, 0, 0.5);
+            background: linear-gradient(to right, #444 0%, #222 100%)
+        }
+
+        .a,
+        .g,
+        .f,
+        .d,
+        .c {
+            margin: 0 0 0 -1em
+        }
+
+        ul li:first-child {
+            border-radius: 5px 0 5px 5px
+        }
+
+        ul li:last-child {
+            border-radius: 0 5px 5px 5px
+        }
+
+        #container {
+            width: 750px;
+            height: 750px;
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+            overflow: hidden;
+            border: 1px solid rgba(136, 136, 136, .5);
+            touch-action: none;
+            user-select: none;
+            min-width: 750px;
+            min-height: 750px;
+            vertical-align: middle;
+            margin: auto;
+        }
+
+        .item {
+            border-radius: 50%;
+            touch-action: none;
+            user-select: none;
+            position: relative;
+        }
+
+        .item:active {
+            opacity: .75;
+        }
+
+        .item:hover {
+            cursor: pointer;
+        }
+
+        .smallcircle {
+            width: 50px;
+            height: 50px;
+            min-width: 50px;
+            min-height: 50px;
+            background-color: rgb(255, 146, 83);
+            border: 1px solid rgba(136, 136, 136, .5);
+            text-align: center;
+            font: 40px bold;
+        }
+
+        #bigCircle {
+            pointer-events: none;
+            background: #becce5;
+            height: 590px;
+            width: 590px;
+            min-height: 590px;
+            min-width: 590px;
+            border: 1px solid rgba(136, 136, 136, .5);
+            z-index: -1;
+        }
+
+        #centerCircle {
+            pointer-events: none;
+            background: #ffffff;
+            /* Put top edge and left edge in the center */
+            top: 50%;
+            left: 50%;
+            /* Offset the position correctly with minus half of the width and minus half of the height */
+            margin: -25px 0px 0px -25px;
+            border: 1px solid rgba(136, 136, 136, .5);
+            z-index: -1;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>*** Prototype for master thesis HTW 2021 ***</h1>
+    <hr>
+
+    <h1>SuperCollider-IP</h1>
+    <div class="center">
+        <input class="textIP" type="text" id="ipSuperCollider">
+        <input class="textIP" type="button" name="buttonConnect" value="Submit"
+            onclick="setIPAndPortOfSuperCollider(ipSuperCollider.value);">
+        <input class="textIP" type="button" name="buttonFreeSC" value="Free SC" 
+            onclick="freeSC();">
+        <br> <br>
+        <span id="setIPDebugInfo" class="textDebug"></span>
+    </div>
+
+    <hr>
+    <h1>Play some notes! (F3 to E4)</h1>
+    <div class="center">
+        <!-- Piano and its CSS based on: https://codepen.io/zastrow/pen/oDBki?css-preprocessor=postcss-->
+        <ul class="set">
+            <li class="white b" onclick="sendNoteNumberToSc(52);"></li>
+            <li class="black as" onclick="sendNoteNumberToSc(53);"></li>
+            <li class="white a" onclick="sendNoteNumberToSc(54);"></li>
+            <li class="black gs" onclick="sendNoteNumberToSc(55);"></li>
+            <li class="white g" onclick="sendNoteNumberToSc(56);"></li>
+            <li class="black fs" onclick="sendNoteNumberToSc(57);"></li>
+            <li class="white f" onclick="sendNoteNumberToSc(58);"></li>
+            <li class="white e" onclick="sendNoteNumberToSc(59);"></li>
+            <li class="black ds" onclick="sendNoteNumberToSc(60);"></li>
+            <li class="white d" onclick="sendNoteNumberToSc(61);"></li>
+            <li class="black cs" onclick="sendNoteNumberToSc(62);"></li>
+            <li class="white c" onclick="sendNoteNumberToSc(63);"></li>
+        </ul>
+        <br> <br>
+        <span id="midiDebugInfo" class="textDebug"></span>
+    </div>
+
+    <hr>
+    <h1>Move the cubes back and forth</h1>
+    <!-- Sliders and their CSS based on: https://www.w3schools.com/howto/howto_js_rangeslider.asp -->
+    <div class="center">
+        <!--<h2>Spin around X-axis: (Value: <span id="xv">0</span>)</h2>-->
+        <input type="range" min="0" max="10" value="0" class="slider" oninput="sendSliderValueToSC(this.value);">
+        <br> <br>
+        <span id="sliderDebugInfo" class="textDebug"></span>
+    </div>
+
+    <hr>
+    <h1>Ambisonic</h1>
+    <div class="center">
+        <!-- CSS for making one circle inside another one based on: https://stackoverflow.com/a/22406737 -->
+        <div id="container">
+            <div class="item smallcircle" id="s1">1</div>
+            <div id="bigCircle" class="item">
+                <div id="centerCircle" class="item smallcircle"></div>
+            </div>
+            <div class="item smallcircle" id="s2">2</div>
+        </div>
+        <br> <br>
+        <span id="ambisonicDebugInfo" class="textDebug"></span>
+    </div>
+
+    <!--Include jquery library -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript">
+        // HTML elements used for showing debug information        
+        var midiDebugInfo = document.getElementById("midiDebugInfo");
+        var sliderDebugInfo = document.getElementById("sliderDebugInfo");
+        var ambisonicDebugInfo = document.getElementById("ambisonicDebugInfo");
+        var setIPDebugInfo = document.getElementById("setIPDebugInfo");
+
+        // Send info to backend to set internal variable for IP and Port there
+        function setIPAndPortOfSuperCollider(input) {
+            var parts = input.split(":");
+            var ip = parts[0].split(".");
+            var port = parts[1];
+            if (validateIpAndPort(ip, port)) {
+                setIPDebugInfo.innerHTML = "Attempt to send hello message to SC at " + input;
+                $.post('/ipSC', { data: [parts[0], port] });
+            }
+            else {
+                setIPDebugInfo.innerHTML = "Invalid address format!";
+            }
+        }
+
+        // Send info to backend to tell SC to free everything
+        function freeSC() {
+            $.post('/freeSC', { data: [] });
+            setIPDebugInfo.innerHTML = "Attempt to free everything in SC";
+        }
+
+        // Send a note number to backend to tell SC to play a MIDI note 
+        function sendNoteNumberToSc(value) {
+            $.post('/midi', { data: value });
+            midiDebugInfo.innerHTML = "Attempt to send note value " + value + " of virtual keyboard to SC";
+        }
+
+        // Send message to supercollider
+        function sendSliderValueToSC(value) {
+            $.post('/slider', { data: [value] });
+            sliderDebugInfo.innerHTML = "Attempt to send slider value " + value + " to SC";
+        }
+
+        // Function to validate IP and Port (based on: https://stackoverflow.com/a/21061273)
+        function validateIpAndPort(ip, port) {
+            return validateNum(port, 1, 65535) &&
+                ip.length == 4 &&
+                ip.every(function (segment) {
+                    return validateNum(segment, 0, 255);
+                });
+        }
+
+        // Help-function for "validateIpAndPort"
+        function validateNum(input, min, max) {
+            var num = +input;
+            return num >= min && num <= max && input === num.toString();
+        }
+
+        /* From this point until the end is code for making elements draggable 
+        Code for dragging based on: https://www.kirupa.com/html5/drag.htm 
+        Also: https://stackoverflow.com/a/42111623 */
+        var container = document.getElementById("container");
+        var activeItem = null;
+        var active = false;
+
+        // Radius of the big circle
+        var radius = document.getElementById("bigCircle").offsetWidth / 2;
+        // At the beginning, both sound sources are outside 
+        var dictSoundInside = { "s1": false, "s2": false };
+
+        // Add event listener to the HTML parent of the 2 small circles
+        if (container) {
+            container.addEventListener("touchstart", dragStart, false);
+            container.addEventListener("touchend", dragEnd, false);
+            container.addEventListener("touchmove", drag, false);
+
+            container.addEventListener("mousedown", dragStart, false);
+            container.addEventListener("mouseup", dragEnd, false);
+            container.addEventListener("mousemove", drag, false);
+        }
+
+        // Start dragging
+        function dragStart(e) {
+            if (e.target !== e.currentTarget) {
+                active = true;
+                // this is the item we are interacting with
+                activeItem = e.target;
+                if (activeItem !== null) {
+                    if (!activeItem.xOffset)
+                        activeItem.xOffset = 0;
+
+                    if (!activeItem.yOffset)
+                        activeItem.yOffset = 0;
+
+                    if (e.type === "touchstart") {
+                        activeItem.initialX = e.touches[0].clientX - activeItem.xOffset;
+                        activeItem.initialY = e.touches[0].clientY - activeItem.yOffset;
+                    } else {
+                        activeItem.initialX = e.clientX - activeItem.xOffset;
+                        activeItem.initialY = e.clientY - activeItem.yOffset;
+                    }
+                }
+            }
+        }
+
+        // During dragging
+        function drag(e) {
+            // Always check if it's actually "s1" or "s2" or something else
+            if (active) {
+                /* Start calculating and updating element's position */
+                e.preventDefault();
+
+                var clientX, clientY;
+
+                if (e.type === "touchmove") {
+                    clientX = e.touches[0].clientX;
+                    clientY = e.touches[0].clientY;
+                } else {
+                    clientX = e.clientX;
+                    clientY = e.clientY;
+                }
+
+                activeItem.currentX = clientX - activeItem.initialX;
+                activeItem.currentY = clientY - activeItem.initialY;
+
+                activeItem.xOffset = activeItem.currentX;
+                activeItem.yOffset = activeItem.currentY;
+
+                setTranslate(activeItem.currentX, activeItem.currentY, activeItem);
+                /* End of calculating and updating element's position */
+
+                /* Start custom actions specific to the thesis */
+                if (e.target.id in dictSoundInside) {
+                    // Get the rectangular bounding of parent HTML element
+                    var rect = e.target.parentNode.getBoundingClientRect();
+                    var halfSquare = rect.width / 2;
+
+                    // Calculate relative distance x and distance y                   
+                    var distX = clientX - rect.left - halfSquare;
+                    var distY = clientY - rect.top - halfSquare;
+                    // Calculate euclidean distance
+                    var distance = Math.sqrt(distX * distX + distY * distY);
+
+                    // Checking if a sound source is inside or outside the big circle 
+                    if (distance <= radius) {
+                        // When it's inside => Calculate relative distance (from 0 to 1)
+                        var relativeDistance = distance / radius;
+                        // Set state to "true" => inside
+                        dictSoundInside[e.target.id] = true;
+                        // Calculate azimuth
+                        var azimuth = Math.atan2(distY / halfSquare, distX / halfSquare);
+                        // Post id of the element (1 or 2), distance and azimuth to backend to send to SC
+                        $.post('/ambisonic', { data: [e.target.id, relativeDistance, azimuth] });
+                        // Print out debug info at the bottom of the parent HTML element
+                        ambisonicDebugInfo.innerHTML = "Attempt to send info to SC for ambisonic - Relative distance: "
+                            + relativeDistance.toFixed(2) + " - Azimuth: " + (azimuth * 180 / Math.PI).toFixed(2);
+                    }
+                    else {
+                        // Post (empty) info to backend for further processing there (Stop sound)
+                        if (dictSoundInside[e.target.id] == true)
+                            $.post('/ambisonic', { data: [e.target.id] });
+
+                        // Set state to "false" => outside
+                        dictSoundInside[e.target.id] = false;
+                        ambisonicDebugInfo.innerHTML = "";
+                    }
+                }
+            }
+        }
+
+        // Help-function for "drag(e)" (function for during dragging)
+        function setTranslate(xPos, yPos, el) {
+            el.style.transform = "translate3d(" + xPos + "px, " + yPos + "px, 0)";
+        }
+
+        // End dragging
+        function dragEnd(e) {
+            active = false;
+            activeItem = null;
+        }
+    </script>
+</body>
+
+</html>
